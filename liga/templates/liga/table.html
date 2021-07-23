@@ -1,0 +1,31 @@
+{% extends 'start.html' %}
+
+{% block content %}
+    <h1 class="ui block header">
+        TABELA
+    </h1>
+    <table class="ui very compact table">
+        <tr>
+                <th>Poz.</th>
+                <th>Teams</th>
+                <th>MP</th>
+                <th>WIN</th>
+                <th>LOSE</th>
+                <th>+</th>
+                <th>-</th>
+                <th>Points</th>
+        </tr>
+        {% for p in result %}
+            <tr>
+                <th>{{forloop.counter}}</th>
+                <th>{{p.team}}</th>
+                <th>{{p.mp}}</th>
+                <th>{{p.win}}</th>
+                <th>{{p.lose}}</th>
+                <th>{{p.score}}</th>
+                <th>{{p.lost}}</th>
+                <th>{{p.points}}</th>
+            </tr>
+        {% endfor %}
+    </table>
+{% endblock content %}

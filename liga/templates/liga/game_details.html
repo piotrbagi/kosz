@@ -1,0 +1,154 @@
+{% extends 'start.html' %}
+
+{% block content %}
+    <h1 class="ui block header">
+        {{ home_team.team.name }} {{ home_team.PKT }} : {{ away_team.PKT }} {{ away_team.team.name }}
+        <div class="sub header">{{ home_team.game.data}}</div>
+    </h1>
+
+    <div id="home">
+        <button class="fluid ui button">Zmnień drużynę</button>
+    </div>
+
+    <div class="not-visible" id="away">
+        <button class="fluid ui button" >Zmień drużynę</button>
+    </div>
+
+    <table class="ui very compact table" id="home-tab">
+        <thead>
+            <tr><th>Name</th>
+            <th style="text-align: center">MIN</th>
+            <th style="text-align: center">PKT</th>
+            <th style="text-align: center">1s</th>
+            <th style="text-align: center">%</th>
+            <th style="text-align: center">2s</th>
+                <th style="text-align: center">%</th>
+            <th style="text-align: center">3s</th>
+                <th style="text-align: center">%</th>
+            <th style="text-align: center">OREB</th>
+            <th style="text-align: center">DREB</th>
+            <th style="text-align: center">TREB</th>
+            <th style="text-align: center">AST</th>
+            <th style="text-align: center">BLK</th>
+            <th style="text-align: center">STL</th>
+            <th style="text-align: center">TO</th>
+            <th style="text-align: center">Game</th>
+        </tr></thead>
+  <tbody>
+    {% for stat in home_players %}
+            <tr>
+            <th class="left">{{ stat.player.first_name }} {{ stat.player.last_name }} #{{ stat.player.number }}</th>
+            <th>{{ stat.MIN }}</th>
+            <th>{{ stat.PKT }}</th>
+            <th>{{ stat.FTM }}/{{ stat.FTA }}</th>
+            <th>{{ stat.percent_FT }}</th>
+            <th>{{ stat.FGM }}/{{ stat.FGA }}</th>
+                <th>{{ stat.percent_FG }}</th>
+            <th>{{ stat.FGM_three }}/{{ stat.FGA_three }}</th>
+                <th>{{ stat.percent_FG_three }}</th>
+            <th>{{ stat.OREB }}</th>
+            <th>{{ stat.DREB }}</th>
+            <th>{{ stat.TREB }}</th>
+            <th>{{ stat.AST }}</th>
+            <th>{{ stat.BLK }}</th>
+            <th>{{ stat.STL }}</th>
+            <th>{{ stat.TO }}</th>
+            <th><div class="ui tiny blue button" onclick="location.href='{% url 'liga:player_stats' stat.player.pk %}'">Profile</div></th>
+            </tr>
+    {% endfor %}
+        <tr>
+            <th class="left">{{ home_team.team.name }} </th>
+            <th>{{ home_team.MIN }}</th>
+            <th>{{ home_team.PKT }}</th>
+            <th>{{ home_team.FTM }}/{{ home_team.FTA }}</th>
+            <th>{{ home_team.percent_FT }}</th>
+            <th>{{ home_team.FGM }}/{{ home_team.FGA }}</th>
+                <th>{{ home_team.percent_FG }}</th>
+            <th>{{ home_team.FGM_three }}/{{ home_team.FGA_three }}</th>
+                <th>{{ home_team.percent_FG_three }}</th>
+            <th>{{ home_team.OREB }}</th>
+            <th>{{ home_team.DREB }}</th>
+            <th>{{ home_team.TREB }}</th>
+            <th>{{ home_team.AST }}</th>
+            <th>{{ home_team.BLK }}</th>
+            <th>{{ home_team.STL }}</th>
+            <th>{{ home_team.TO }}</th>
+            <th><div class="ui tiny blue button" onclick="location.href='{% url 'liga:team' home_team.pk %}'">Team</div></th>
+        </tr>
+        </tbody>
+    </table>
+        <table class="ui very compact table not-visible" id="away-tab">
+        <thead>
+            <tr><th>Name</th>
+            <th style="text-align: center">MIN</th>
+            <th style="text-align: center">PKT</th>
+            <th style="text-align: center">1s</th>
+            <th style="text-align: center">%</th>
+            <th style="text-align: center">2s</th>
+                <th style="text-align: center">%</th>
+            <th style="text-align: center">3s</th>
+                <th style="text-align: center">%</th>
+            <th style="text-align: center">OREB</th>
+            <th style="text-align: center">DREB</th>
+            <th style="text-align: center">TREB</th>
+            <th style="text-align: center">AST</th>
+            <th style="text-align: center">BLK</th>
+            <th style="text-align: center">STL</th>
+            <th style="text-align: center">TO</th>
+            <th style="text-align: center">Game</th>
+        </tr></thead>
+  <tbody>
+    {% for stat in away_players %}
+            <tr>
+            <th class="left">{{ stat.player.first_name }} {{ stat.player.last_name }} #{{ stat.player.number }}</th>
+            <th>{{ stat.MIN }}</th>
+            <th>{{ stat.PKT }}</th>
+            <th>{{ stat.FTM }}/{{ stat.FTA }}</th>
+            <th>{{ stat.percent_FT }}</th>
+            <th>{{ stat.FGM }}/{{ stat.FGA }}</th>
+                <th>{{ stat.percent_FG }}</th>
+            <th>{{ stat.FGM_three }}/{{ stat.FGA_three }}</th>
+                <th>{{ stat.percent_FG_three }}</th>
+            <th>{{ stat.OREB }}</th>
+            <th>{{ stat.DREB }}</th>
+            <th>{{ stat.TREB }}</th>
+            <th>{{ stat.AST }}</th>
+            <th>{{ stat.BLK }}</th>
+            <th>{{ stat.STL }}</th>
+            <th >{{ stat.TO }}</th>
+            <th><div class="ui tiny blue button" onclick="location.href='{% url 'liga:player_stats' stat.player.pk %}'">Profile</div></th>
+            </tr>
+    {% endfor %}
+        <tr>
+            <th class="left">{{ away_team.team.name }} </th>
+            <th>{{ away_team.MIN }}</th>
+            <th>{{ away_team.PKT }}</th>
+            <th>{{ away_team.FTM }}/{{ away_team.FTA }}</th>
+            <th>{{ away_team.percent_FT }}</th>
+            <th>{{ away_team.FGM }}/{{ away_team.FGA }}</th>
+                <th>{{ away_team.percent_FG }}</th>
+            <th>{{ away_team.FGM_three }}/{{ away_team.FGA_three }}</th>
+                <th>{{ away_team.percent_FG_three }}</th>
+            <th>{{ away_team.OREB }}</th>
+            <th>{{ away_team.DREB }}</th>
+            <th>{{ away_team.TREB }}</th>
+            <th>{{ away_team.AST }}</th>
+            <th>{{ away_team.BLK }}</th>
+            <th>{{ away_team.STL }}</th>
+            <th>{{ away_team.TO }}</th>
+            <th><div class="ui tiny blue button" onclick="location.href='{% url 'liga:team' away_team.pk %}'">Team</div></th>
+        </tr>
+        </tbody>
+    </table>
+    <div class="not-visible" id="game_num">{{ home_team.game.pk }}</div>
+    <div id='myChart'></div>
+{% endblock content %}
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,51 @@
+{% extends 'start.html' %}
+
+{% block content %}
+    <h1 class="ui block header">
+        {{ team.name }}
+    </h1>
+    <h3 class="ui block header">
+        ZAWODNICY
+    </h3>
+    <div class="ui celled list">
+    {% for player in players %}
+          <div class="item">
+              <div class="right floated content">
+                  <div class="ui blue button" onclick="location.href='{% url 'liga:player_stats' player.pk %}'">Profile</div>
+                  {% if request.user.is_authenticated %}
+                  <div class="ui yellow button" onclick="location.href='{% url 'liga:edit_player' player.pk team.pk %}'">Edit Player</div>
+                  <div class="ui red button" onclick="location.href='{% url 'liga:delete_player' player.pk team.pk %}'">Delete Player</div>
+                  {% endif %}
+              </div>
+            <img class="ui avatar image" src="{{player.image.url}}">
+            <div class="content">
+            <div style="color: dodgerblue" class="header">#{{ player.number }}  {{ player.first_name }} {{ player.last_name }} </div>
+            </div>
+        </div>
+    {% endfor %}
+        {% if request.user.is_authenticated %}
+            <button class="fluid ui green button" onclick="location.href='{% url 'liga:create_team_player' team.pk %}'">Create Player</button>
+
+        {% endif %}
+        <h3 class="ui block header">
+        MECZE
+    </h3>
+    {% for game in games %}
+        <div class="item">
+              <div class="right floated content">
+                  <div class="ui blue button" onclick="location.href='{% url 'liga:game_stats' game.pk %}'">Game</div>
+                  {% if request.user.is_authenticated %}
+                  <div class="ui yellow button" onclick="location.href='{% url 'liga:edit_game' game.pk team.pk %}'">Edit Game</div>
+                  <div class="ui red button" onclick="location.href='{% url 'liga:delete_game' game.pk team.pk %}'">Delete Game</div>
+                  {% endif %}
+              </div>
+            <div class="content">
+            <div style="color: dodgerblue" class="header">{{ game.round.number }}. {{ game.home }} {{ game.score1 }} : {{ game.score2 }} {{ game.away}}</div>
+                <span style="color: darkgrey" ><b>{{ game.data }} {{ game.hour }}</b></span>
+            </div>
+        </div>
+    {% endfor %}
+    </div>
+
+
+{% endblock content %}

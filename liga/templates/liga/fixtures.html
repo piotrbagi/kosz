@@ -1,0 +1,42 @@
+{% extends 'unfinished.html' %}
+
+{% block content %}
+    <h1 class="ui block header">
+        TERMINARZ
+    </h1>
+    <h3 class="ui right aligned header">
+    <div class="ui selection dropdown" id="recent-rounds">
+        <input type="hidden" name="recent-round">
+        <i class="dropdown icon"></i>
+        <div class="default text">Round</div>
+        <div class="menu" id="recent-rounds-data-box">
+            <div class="item" data-value="0">Wszystkie</div>
+            {% for round in rounds %}
+                <div class="item" data-value="{{ round }}">Kolejka nr {{ round }}</div>
+            {% endfor %}
+  </div>
+</div>
+    </h3>
+
+    <div class="ui celled list" id="fix-round-list">
+        {% for fixture in fixtures %}
+          <div class="item">
+              <div class='right floated content'>
+                  <div class="ui blue button" onclick="location.href='{% url 'liga:game_stats' fixture.pk %}'">Game</div>
+                  {% if request.user.is_authenticated %}
+                  <div class="ui green button" onclick="location.href='{% url 'liga:record' fixture.pk %}'">Start Game</div>
+                  <div class="ui yellow button" onclick="location.href='{% url 'liga:edit_game' fixture.pk fixture.away %}'">Edit Game</div>
+                  <div class="ui red button" onclick="location.href='{% url 'liga:delete_game' fixture.pk fixture.finished %}'">Delete Game</div>
+                  {% endif %}
+              </div>
+            <div class="content">
+            <div style="color: dodgerblue" class="header">{{ fixture.home }} n:n {{ fixture.away }}</div>
+                <span style="color: darkgrey" ><b>{{ fixture.data }} {{ fixture.hour }}</b></span>
+            </div>
+          </div>
+    {% endfor %}
+    </div>
+    {% if request.user.is_authenticated %}
+        <button class="fluid ui green button" onclick="location.href='{% url 'liga:create_game' %}'">Create Game</button>
+    {% endif %}
+{% endblock content %}

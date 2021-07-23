@@ -1,0 +1,72 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- jquery -->
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+
+    <!-- semantic UI -->
+    <link rel="stylesheet" type='text/css' href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.14/semantic.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.js"></script>
+
+    <!-- custom css & js -->
+    <script src={% static 'players.js' %} defer></script>
+    <script src={% static 'semantic.js' %} defer></script>
+    <link rel="stylesheet" href={% static 'style.css' %}>
+
+    <title>liga</title>
+  </head>
+  <body>
+{% include 'navbar.html' %}
+    <div class="ui container mt-5">
+        {% block content %}
+
+    <h1 class="ui block header">
+        ZAWODNICY
+    </h1>
+            <form>
+            {% csrf_token %}
+<div class="ui fluid input" id="search-player">
+  <input type="text" placeholder="Search...">
+    <div class="ui selection dropdown" id="select-team">
+  <input type="hidden" name="selecit">
+  <i class="dropdown icon"></i>
+  <div class="default text" id="select-team-text">Team</div>
+  <div class="menu" id="select-team-box">
+    <div class="item" data-value="0">All</div>
+      {% for team in teams %}
+          <div class="item" data-value="{{ team.pk }}">{{ team.name }}</div>
+      {% endfor %}
+  </div>
+</div>
+</div>
+            </form>
+    <div class="ui celled list" id="players-list">
+    {% for player in players %}
+          <div class="item">
+              <div class='right floated content'>
+                  <div class="ui blue button" onclick="location.href='{% url 'liga:player_stats' player.pk %}'">Profile</div>
+                  {% if request.user.is_authenticated %}
+                  <div class="ui yellow button" onclick="location.href='{% url 'liga:edit_player' player.pk player.first_name%}'">Edit Player</div>
+                  <div class="ui red button" onclick="location.href='{% url 'liga:delete_player' player.pk player.first_name %}'">Delete Player</div>
+                  {% endif %}
+              </div>
+            <img class="ui avatar image" src="{{player.image.url}}">
+            <div class="content">
+            <div style="color: dodgerblue" class="header">{{ player.last_name }} {{ player.first_name }}</div>
+                <span style="color: darkgrey" ><b>{{ player.team.name}}| {{ player.get_points_per_game }}/{{ player.get_rebs_per_game }}/{{ player.get_asts_per_game }}</b></span>
+            </div>
+          </div>
+    {% endfor %}
+    </div>
+            {% if request.user.is_authenticated %}
+                <button class="fluid ui green button" onclick="location.href='{% url 'liga:create_player' %}'">Create Player</button>
+            {% endif %}
+        {% endblock content %}
+    </div>
+  </body>
+</html>

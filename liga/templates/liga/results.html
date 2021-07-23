@@ -1,0 +1,38 @@
+{% extends 'start.html' %}
+
+{% block content %}
+    <h1 class="ui block header">
+        WYNIKI
+    </h1>
+    <h3 class="ui right aligned header">
+    <div class="ui selection dropdown" id="rounds">
+        <input type="hidden" name="round">
+        <i class="dropdown icon"></i>
+        <div class="default text">Round</div>
+        <div class="menu" id="rounds-data-box">
+            <div class="item" data-value="0">Wszystkie</div>
+            {% for round in rounds %}
+            <div class="item" data-value="{{ round }}">Kolejka {{ round }} </div>
+            {% endfor %}
+  </div>
+</div>
+    </h3>
+
+    <div class="ui celled list" id="games-list">
+        {% for result in results %}
+          <div class="item">
+              <div class='right floated content'>
+                  <div class="ui blue button" onclick="location.href='{% url 'liga:game_stats' result.pk %}'">Game</div>
+                  {% if request.user.is_authenticated %}
+                  <div class="ui red button" onclick="location.href='{% url 'liga:delete_game' result.pk result.finished%}'">Delete Game</div>
+                  {% endif %}
+              </div>
+            <div class="content">
+            <div style="color: dodgerblue" class="header">{{ result.home }} {{ result.score1 }}:{{ result.score2 }} {{ result.away }}</div>
+                <span style="color: darkgrey" ><b>{{ result.data }} {{ result.hour }}</b></span>
+            </div>
+          </div>
+    {% endfor %}
+    </div>
+
+{% endblock content %}

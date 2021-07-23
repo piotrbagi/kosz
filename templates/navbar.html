@@ -1,0 +1,20 @@
+<body>
+  <div class="seven ui buttons">
+      <button onclick="location.href='{% url 'liga:results' %}'" class="ui button">Finished Games</button>
+      <button onclick="location.href='{% url 'liga:fixtures' %}'" class="ui button">Fixtures Games</button>
+      <button onclick="location.href='{% url 'liga:table' %}'" class="ui button">Bracket</button>
+      <button onclick="location.href='{% url 'liga:teams' %}'" class="ui button">Teams</button>
+      <button onclick="location.href='{% url 'liga:players' %}'" class="ui button">Players</button>
+      <button onclick="location.href='{% url 'liga:top' %}'" class="ui button">Top Players</button>
+      {% if request.user.is_authenticated %}
+      <button onclick="location.href='{% url 'liga:logout' %}'" class="ui button">Logout</button>
+      {% else %}
+      <button onclick="location.href='{% url 'liga:login' %}'" class="ui button">Login</button>
+      {% endif %}
+    </div>
+    {% if request.user.is_superuser %}
+        <button onclick="location.href='{% url 'liga:create_user' %}'" class="ui fluid button">Create user</button>
+    {% endif %}
+
+  </body>
+</html>

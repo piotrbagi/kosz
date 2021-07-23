@@ -1,0 +1,14 @@
+{% extends 'start.html' %}
+
+{% block content %}
+    <h1 class="ui block header">
+        Create User
+    </h1>
+    <form method="POST">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="ui fluid green huge button">Create User</button>
+    </form>
+    <button class="ui fluid blue huge button" onclick="location.href='{% url 'liga:table' %}'">Back</button>
+
+{% endblock content %}

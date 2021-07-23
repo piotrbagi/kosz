@@ -1,0 +1,13 @@
+{% extends 'start.html' %}
+
+{% block content %}
+    <h1 class="ui block header">
+        Czy na pewno chcesz usunąć drużynę {{ game }}?
+    </h1>
+    <form method="POST">
+        {% csrf_token %}
+        <p> {{ team }}</p>
+        <button type="submit" class="ui fluid red huge button">Delete</button>
+    </form>
+        <button class="ui fluid green huge button" onclick="location.href='{% url 'liga:teams' %}'">Back</button>
+{% endblock content %}

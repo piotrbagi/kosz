@@ -1,0 +1,87 @@
+{% extends 'start.html' %}
+
+{% block content %}
+    <h1 class="ui block header">
+        {{ player.first_name }} {{ player.last_name }} #{{ player.number }}
+        <div class="sub header">{{ player.team.name}}</div>
+    </h1>
+<div class="ui center aligned segment">
+
+    <div class="ui huge labels" >
+    <div class="ui label">
+        <img class="ui avatar small image" src="{{player.image.url}}">
+  </div>
+    <div class="ui green label">
+    Minutes
+      <div class="detail">{{ player.get_mins_per_game }}</div>
+  </div>
+  <div class="ui green label">
+    Points
+      <div class="detail">{{ player.get_points_per_game }}</div>
+  </div>
+  <div class="ui green label">
+    Rebounds
+      <div class="detail">{{ player.get_rebs_per_game }}</div>
+  </div>
+  <div class="ui green label">
+    Assist
+      <div class="detail">{{ player.get_asts_per_game }}</div>
+  </div>
+    <div class="ui green label">
+    Blocks
+      <div class="detail">{{ player.get_blks_per_game }}</div>
+  </div>
+    <div class="ui green label">
+    Steals
+      <div class="detail">{{ player.get_stls_per_game }}</div>
+  </div>
+</div>
+</div>
+
+    <table class="ui very compact table">
+        <thead>
+            <tr><th style="text-align: center">OPP</th>
+            <th style="text-align: center">DATE</th>
+            <th style="text-align: center">MIN</th>
+            <th style="text-align: center">PKT</th>
+            <th style="text-align: center">1s</th>
+            <th style="text-align: center">%</th>
+            <th style="text-align: center">2s</th>
+                <th style="text-align: center">%</th>
+            <th style="text-align: center">3s</th>
+                <th style="text-align: center">%</th>
+            <th style="text-align: center">OREB</th>
+            <th style="text-align: center">DREB</th>
+            <th style="text-align: center">TREB</th>
+            <th style="text-align: center">AST</th>
+            <th style="text-align: center">BLK</th>
+            <th style="text-align: center">STL</th>
+            <th style="text-align: center">TO</th>
+            <th style="text-align: center">Game</th>
+        </tr></thead>
+  <tbody>
+    {% for stat in stats %}
+            <tr>
+            <th>VS {{ stat.opponent }}</th>
+            <th>{{ stat.game.data}}</th>
+            <th>{{ stat.MIN }}</th>
+            <th>{{ stat.PKT }}</th>
+            <th>{{ stat.FTM }}/{{ stat.FTA }}</th>
+            <th>{{ stat.percent_FT }}</th>
+            <th>{{ stat.FGM }}/{{ stat.FGA }}</th>
+                <th>{{ stat.percent_FG }}</th>
+            <th>{{ stat.FGM_three }}/{{ stat.FGA_three }}</th>
+                <th>{{ stat.percent_FG_three }}</th>
+            <th>{{ stat.OREB }}</th>
+            <th>{{ stat.DREB }}</th>
+            <th>{{ stat.TREB }}</th>
+            <th>{{ stat.AST }}</th>
+            <th>{{ stat.BLK }}</th>
+            <th>{{ stat.STL }}</th>
+            <th>{{ stat.TO }}</th>
+            <th><div class="ui tiny blue button" onclick="location.href='http://127.0.0.1:8000/game/{{ stat.game.pk }}/'">Game</div></th>
+            </tr>
+    {% endfor %}
+        </tbody>
+    </table>
+{% endblock content %}

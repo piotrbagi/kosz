@@ -1,0 +1,97 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- jquery -->
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+
+    <!-- semantic UI -->
+    <link rel="stylesheet" type='text/css' href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.14/semantic.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.js"></script>
+
+    <!-- custom css & js -->
+    <script src={% static 'top.js' %} defer></script>
+    <script src={% static 'semantic.js' %} defer></script>
+    <link rel="stylesheet" href={% static 'style.css' %}>
+    <title>liga</title>
+  </head>
+  <body>
+{% include 'navbar.html' %}
+    <div class="ui container mt-5">
+{% block content %}
+    <h1 class="ui block header">
+        TOP PLAYERS
+    </h1>
+    <h3 class="ui right aligned header">
+        <div class="ui selection dropdown" id="select-stat">
+        <input type="hidden" name="stat">
+        <i class="dropdown icon"></i>
+        <div class="default text">STAT</div>
+        <div class="menu">
+            <div class="item" data-value="ALL">All</div>
+            <div class="item" data-value="PKT">Points</div>
+            <div class="item" data-value="REB">Rebounds</div>
+            <div class="item" data-value="AST">Assists</div>
+            <div class="item" data-value="BLK">Blocks</div>
+            <div class="item" data-value="STL">Steals</div>
+  </div>
+</div>
+    </h3>
+
+
+    <table class="ui very compact table" id="PKT">
+        <tr><th>#</th><th><h3 class="ui header">TOP SCORES</h3></th><th></th></tr>
+        {% for p in top_points %}
+            <tr>
+                <th>{{ forloop.counter }}</th>
+                <th>{{ p.0.first_name }} {{ p.0.last_name }} {{ p.0.team.name }}</th>
+                <th class="right">{{ p.1 }}</th>
+            </tr>
+        {% endfor %}
+    </table>
+    <table class="ui very compact table" id="REB">
+        <tr><th>#</th><th><h3 class="ui header">TOP REBOUNDS</h3></th><th></th></tr>
+        {% for p in top_rebs %}
+            <tr>
+                <th>{{ forloop.counter }}</th>
+                <th>{{ p.0.first_name }} {{ p.0.last_name }} {{ p.0.team.name }}</th>
+                <th class="right">{{ p.1 }}</th>
+            </tr>
+        {% endfor %}
+    </table>
+    <table class="ui very compact table" id="AST">
+        <tr><th>#</th><th><h3 class="ui header">TOP ASSISTS</h3></th><th></th></tr>
+        {% for p in top_asts %}
+            <tr>
+                <th>{{ forloop.counter }}</th>
+                <th>{{ p.0.first_name }} {{ p.0.last_name }} {{ p.0.team.name }}</th>
+                <th class="right">{{ p.1 }}</th>
+            </tr>
+        {% endfor %}
+    </table>
+    <table class="ui very compact table" id="BLK">
+        <tr><th>#</th><th><h3 class="ui header">TOP BLOCKS</h3></th><th></th></tr>
+        {% for p in top_blks %}
+            <tr>
+                <th>{{ forloop.counter }}</th>
+                <th>{{ p.0.first_name }} {{ p.0.last_name }} {{ p.0.team.name }}</th>
+                <th class="right">{{ p.1 }}</th>
+            </tr>
+        {% endfor %}
+    </table>
+    <table class="ui very compact table" id="STL">
+        <tr><th>#</th><th><h3 class="ui header">TOP STEALS</h3></th><th></th></tr>
+        {% for p in top_stls %}
+            <tr>
+                <th>{{ forloop.counter }}</th>
+                <th>{{ p.0.first_name }} {{ p.0.last_name }} {{ p.0.team.name }}</th>
+                <th class="right">{{ p.1 }}</th>
+            </tr>
+        {% endfor %}
+    </table>
+{% endblock content %}
+     </div>

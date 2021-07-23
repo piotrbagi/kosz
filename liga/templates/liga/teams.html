@@ -1,0 +1,26 @@
+{% extends 'start.html' %}
+
+{% block content %}
+    <h1 class="ui block header">
+        DRUŻYNY
+    </h1>
+    <div class="ui celled list">
+    {% for team in teams %}
+          <div class="item">
+              <div class="right floated content">
+                  <div class="ui blue button" onclick="location.href='{% url 'liga:team' team.pk %}'">Profile</div>
+                  {% if request.user.is_authenticated %}
+                  <div class="ui red button" onclick="location.href='{% url 'liga:delete_team' team.pk %}'">Delete Team</div>
+                  {% endif %}
+              </div>
+            <img class="ui avatar image" src="{{team.team_logo.url}}">
+            <div class="content">
+            <div style="color: dodgerblue" class="header">{{ team.name }} </div>
+            </div>
+        </div>
+    {% endfor %}
+    </div>
+        {% if request.user.is_authenticated %}
+            <button class="fluid ui green button" onclick="location.href='{% url 'liga:create_team' %}'">Create Team</button>
+        {% endif %}
+{% endblock content %}

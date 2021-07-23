@@ -1,0 +1,12 @@
+{% extends 'start.html' %}
+
+{% block content %}
+    <h1 class="ui block header">
+        Czy na pewno chcesz usunąć zawodnika {{ player }}?
+    </h1>
+    <form method="POST">
+        {% csrf_token %}
+        <button type="submit" class="ui fluid red huge button">Delete</button>
+    </form>
+        <button class="ui fluid blue huge button" onclick="location.href='{% url 'liga:players' %}'">Back</button>
+{% endblock content %}
