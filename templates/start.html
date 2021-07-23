@@ -1,0 +1,36 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- jquery -->
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+
+      <!-- zingchart -->
+    <script src="https://cdn.zingchart.com/zingchart.min.js"></script>
+
+    <!-- semantic UI -->
+    <link rel="stylesheet" type='text/css' href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.14/semantic.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.js"></script>
+
+    <!-- custom css & js -->
+    <script src={% static 'main.js' %} defer></script>
+    <script src={% static 'semantic.js' %} defer></script>
+    <link rel="stylesheet" href={% static 'style.css' %}>
+       <script src={% static 'chart.js' %} defer></script>
+    <script src={% static 'game_tab.js' %} defer></script>
+      <script src={% static 'players.js' %} defer></script>
+
+    <title>liga</title>
+  </head>
+  <body>
+  {% include 'navbar.html' %}
+    <div class="ui container mt-5">
+        {% block content %}
+        {% endblock content %}
+    </div>
+  </body>
+</html>

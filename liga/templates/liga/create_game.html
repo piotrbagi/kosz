@@ -1,0 +1,13 @@
+{% extends 'start.html' %}
+
+{% block content %}
+    <h1 class="ui block header">
+        Create Game:
+    </h1>
+    <form method="POST">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="ui fluid green huge button">Create</button>
+    </form>
+    <button class="ui fluid blue huge button" onclick="location.href='{% url 'liga:fixtures' %}'">Back</button>
+{% endblock content %}

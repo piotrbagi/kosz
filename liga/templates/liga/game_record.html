@@ -1,0 +1,226 @@
+{% include 'navbar.html' %}
+{% load static %}
+<!doctype html>
+<head>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <link rel="stylesheet" href={% static 'style.css' %}>
+    <script src={% static 'game_record.js' %} defer></script>
+    <script src={% static 'semantic.js' %} defer></script>
+    <link rel="stylesheet" type='text/css' href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.14/semantic.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.js"></script>
+</head>
+
+<h1 id="clock">{{ time }}</h1>
+
+<h1 id="faul" style="background-color: red"></h1>
+
+<div class="not-visible" id="stop-timer">
+    <button class="fluid negative ui button">Stop Game</button>
+</div>
+
+<div id="start-timer">
+    <button class="fluid primary ui button">Start Game</button>
+</div>
+
+<div class="not-visible" id="reset-timer">
+    <button class="fluid secondary ui button">Reset Timer</button>
+</div>
+
+<div class="not-visible" id="ot-timer">
+    <button class="fluid secondary ui button">OT Timer</button>
+</div>
+
+<div class="not-visible" id="end">
+    <button class="fluid ui purple button" onclick="location.href='{% url 'liga:results' %}'">Zakończ mecz</button>
+</div>
+<div id="qtime" class="not-visible">{{ game.time }}</div>
+<div id="ot_time" class="not-visible">{{ game.ot_time }}</div>
+<div id="qua" class="not-visible">{{ game.quarter }}</div>
+<div id="game_id" class="not-visible">{{ game.pk }}</div>
+<div id="ot" class="not-visible">{{ game.ot }}</div>
+<div class="not-visible" id="home-sqad">
+</div>
+<div class="not-visible" id="away-sqad">
+</div>
+    <table id="five_home">
+        <tr>
+            <th>{{ home_team.team.name }}</th>
+            <th>
+            <div class="ui fluid multiple search selection dropdown" id="plrs">
+                <div class=not-visible id="text_home5"></div>
+              <input type="hidden" name="country">
+              <i class="dropdown icon"></i>
+              <div class="default text">Select five players</div>
+              <div class="menu" id="five-box">
+                  {% for p in home_players %}
+                      <div class="item" data-value={{ p.player.pk }}>{{ p.player.first_name }} {{ p.player.last_name }} #{{ p.player.number }}</div>
+                  {% endfor %}
+            </div>
+              </div>
+            </th>
+            <th>
+                <div class="not-visible" id="btn_home_5">
+                <button class="secondary ui button">Zmień 5</button>
+                </div>
+            </th>
+        </tr>
+    </table>
+<div id="home-tab">
+  <table id="tab">
+        <tr>
+            <th class="left">Name</th><th>MIN</th><th>1's</th><th>2's</th><th>3's</th><th>OREB</th><th>DREB</th><th>tREB</th><th>AST</th><th>BLK</th><th>STL</th><th>TO</th><th>PF</th><th>PKT</th><th>Edit</th><th class="not-visible">active</th>
+        </tr>
+        {% for p in home_players %}
+            <tr id="{{ p.player.pk }}">
+                <th class="left" id="{{ p.player.pk }}">{{ p.player.first_name }} {{ p.player.last_name }} #{{ p.player.number }}</th>
+                <th class="time" id="{{ p.player.pk }}">{{ p.MIN }}</th>
+                <th><button class="medium positive ui button" id="FTM {{ p.player.pk }}">{{ p.FTM }}</button><button class="tiny positive ui button" id="FTA {{ p.player.pk }}">{{ p.FTA }}</button></th>
+                <th><button class="medium positive ui button" id="FGM {{ p.player.pk }}">{{ p.FGM }}</button><button class="tiny positive ui button" id="FGA {{ p.player.pk }}">{{ p.FGA }}</button></th>
+                <th><button class="medium positive ui button" id="FGM_three {{ p.player.pk }}">{{ p.FGM_three }}</button><button class="tiny positive ui button" id="FGA_three {{ p.player.pk }}">{{ p.FGA_three }}</button></th>
+                <th><button class="tiny positive ui button" id="OREB {{ p.player.pk }}" name="{{ p.player.pk }}">{{ p.OREB }}</button></th>
+                <th><button class="tiny positive ui button" id="DREB {{ p.player.pk }}" name="{{ p.player.pk }}">{{ p.DREB }}</button></th>
+                <th class="treb" id="TREB {{ p.player.pk }}">{{ p.TREB }}</th>
+                <th><button class="tiny positive ui button" id="AST {{ p.player.pk }}">{{ p.AST }}</button></th>
+                <th><button class="tiny positive ui button" id="BLK {{ p.player.pk }}">{{ p.BLK }}</button></th>
+                <th><button class="tiny positive ui button" id="STL {{ p.player.pk }}">{{ p.STL }}</button></th>
+                <th><button class="tiny positive ui button" id="TO {{ p.player.pk }}">{{ p.TO }}</button></th>
+                <th><button class="tiny positive ui button" id="PF {{ p.player.pk }}">{{ p.PF }}</button></th>
+                <th class="pkt" id="PKT {{ p.player.pk }}">{{ p.PKT }}</th>
+                <th><button class="tiny ui violet button" id="{{ p.player.pk }}">Edit</button></th>
+                <th class="on_court not-visible" id="{{ p.player.pk }}">{{ p.player.on_court}}</th>
+            </tr>
+        {% endfor %}
+            <tr style="background-color: aquamarine">
+                <th class="left" id="home_name">{{ home_team.team.name }} </th>
+                <th>{{home_team.MIN}}</th>
+                <th id="FTM  {{ home_team.pk }}">{{ home_team.FTM }}/{{ home_team.FTA }}</th>
+                <th id="FGM  {{ home_team.pk }}">{{ home_team.FGM }}/{{ home_team.FGA }}</th>
+                <th id="FGM_three  {{ home_team.pk }}">{{ home_team.FGM_three }}/{{ home_team.FGA_three }}</th>
+                <th id="OREB  {{ home_team.pk }}">{{ home_team.OREB }}</th>
+                <th id="DREB  {{ home_team.pk }}">{{ home_team.DREB }}</th>
+                <th id="TREB  {{ home_team.pk }}">{{ home_team.TREB }}</th>
+                <th id="AST  {{ home_team.pk }}">{{ home_team.AST }}</th>
+                <th id="BLK  {{ home_team.pk }}">{{ home_team.BLK }}</th>
+                <th id="STL  {{ home_team.pk }}">{{ home_team.STL }}</th>
+                <th id="TO  {{ home_team.pk }}">{{ home_team.TO }}</th>
+                <th id="PF  {{ home_team.pk }}">{{ home_team.PF }}</th>
+                <th id="PKT  {{ home_team.pk }}">{{ home_team.PKT }}</th>
+                <th></th>
+            </tr>
+    </table>
+</div>
+
+<form class="mt-5" id="edit">
+    {% csrf_token %}
+    <table class = not-visible id="edit-form">
+        <tr>
+            <th id="edit-id"></th>
+            <th id="edit-player"></th>
+            <th>
+                <div class="tiny ui selection dropdown" id="edit-stat">
+                  <input type="hidden" name="edit">
+                  <i class="dropdown icon"></i>
+                  <div class="default text" id="edit-text">Select STAT</div>
+                  <div class="menu" id="edit_box">
+                      <div class="item" id='OREB' data-value='OREB'>OREB</div>
+                      <div class="item" id='DREB' data-value='DREB'>DREB</div>
+                      <div class="item" id='AST' data-value='AST'>AST</div>
+                      <div class="item" id='BLK' data-value='BLK'>BLK</div>
+                      <div class="item" id='STL' data-value='STL'>STL</div>
+                      <div class="item" id='TO' data-value='TO'>TO</div>
+                      <div class="item" id='PF' data-value='PF'>PF</div>
+                      <div class="item" id='FTM' data-value='FTM'>FTM</div>
+                      <div class="item" id='FTA' data-value='FTA'>FTA</div>
+                      <div class="item" id='FGM' data-value='FGM'>FGM</div>
+                      <div class="item" id='FGA' data-value='FGA'>FGA</div>
+                      <div class="item" id='FGM_three' data-value='FGM_three'>FGM_three</div>
+                      <div class="item" id='FGA_three' data-value='FGA_three'>FGA_three</div>
+                  </div>
+                </div>
+            </th>
+            <th>
+                <div class="tiny ui selection dropdown" id="val-stat">
+                  <input type="hidden" name="val">
+                  <i class="dropdown icon"></i>
+                  <div class="default text" id="val-text">Value</div>
+                  <div class="menu" id="val_box">
+                  </div>
+                </div>
+            </th>
+            <th>
+                <div id="zmiana">
+                    <button type="submit" class="tiny secondary ui button">Edit</button>
+                </div>
+            </th>
+        </tr>
+    </table>
+</form>
+<br>
+
+<table id="five_away">
+        <tr>
+            <th>{{ away_team.team.name }}</th>
+            <th>
+            <div class="ui fluid multiple search selection dropdown" id="five_away">
+                <div class=not-visible id="text_away5"></div>
+              <input type="hidden" name="country">
+              <i class="dropdown icon"></i>
+              <div class="default text">Select five  players</div>
+              <div class="menu" id="five-box-away">
+                  {% for p in away_players %}
+                      <div class="item" data-value={{ p.player.pk }}>{{ p.player.first_name }} {{ p.player.last_name }} #{{ p.player.number }}</div>
+                  {% endfor %}
+            </div>
+              </div>
+            </th>
+            <th>
+                <div class="not-visible" id="btn_away_5">
+                <button class="secondary ui button">Zmień 5</button>
+                </div>
+            </th>
+        </tr>
+</table>
+<div id="awaytab">
+  <table id="away-tab">
+        <tr>
+            <th class="left">Name</th><th>MIN</th><th>1's</th><th>2's</th><th>3's</th><th>OREB</th><th>DREB</th><th>tREB</th><th>AST</th><th>BLK</th><th>STL</th><th>TO</th><th>PF</th><th>PKT</th><th>Edit</th><th class="not-visible">active</th>
+        </tr>
+        {% for p in away_players %}
+            <tr id="{{ p.player.pk }}">
+                <th class="left" id="{{ p.player.pk }}">{{ p.player.first_name }} {{ p.player.last_name }} #{{ p.player.number }}</th>
+                <th class="time" id="{{ p.player.pk }}">{{ p.MIN }}</th>
+                <th><button class="medium positive ui button" id="FTM {{ p.player.pk }}">{{ p.FTM }}</button><button class="tiny positive ui button" id="FTA {{ p.player.pk }}">{{ p.FTA }}</button></th>
+                <th><button class="medium positive ui button" id="FGM {{ p.player.pk }}">{{ p.FGM }}</button><button class="tiny positive ui button" id="FGA {{ p.player.pk }}">{{ p.FGA }}</button></th>
+                <th><button class="medium positive ui button" id="FGM_three {{ p.player.pk }}">{{ p.FGM_three }}</button><button class="tiny positive ui button" id="FGA_three {{ p.player.pk }}">{{ p.FGA_three }}</button></th>
+                <th><button class="tiny positive ui button" id="OREB {{ p.player.pk }}" name="{{ p.player.pk }}">{{ p.OREB }}</button></th>
+                <th><button class="tiny positive ui button" id="DREB {{ p.player.pk }}" name="{{ p.player.pk }}">{{ p.DREB }}</button></th>
+                <th class="treb" id="TREB {{ p.player.pk }}">{{ p.TREB }}</th>
+                <th><button class="tiny positive ui button" id="AST {{ p.player.pk }}">{{ p.AST }}</button></th>
+                <th><button class="tiny positive ui button" id="BLK {{ p.player.pk }}">{{ p.BLK }}</button></th>
+                <th><button class="tiny positive ui button" id="STL {{ p.player.pk }}">{{ p.STL }}</button></th>
+                <th><button class="tiny positive ui button" id="TO {{ p.player.pk }}">{{ p.TO }}</button></th>
+                <th><button class="tiny positive ui button" id="PF {{ p.player.pk }}">{{ p.PF }}</button></th>
+                <th class="pkt" id="PKT {{ p.player.pk }}">{{ p.PKT }}</th>
+                <th><button class="tiny ui violet button" id="{{ p.player.pk }}">Edit</button></th>
+                <th class="on_court not-visible" id="{{ p.player.pk }}">{{ p.player.on_court}}</th>
+            </tr>
+        {% endfor %}
+            <tr style="background-color: aquamarine">
+                <th class="left" id="away_name">{{ away_team.team.name }} </th>
+                <th>{{away_team.MIN}}</th>
+                <th id="FTM  {{ away_team.pk }}">{{ away_team.FTM }}/{{ away_team.FTA }}</th>
+                <th id="FGM  {{ away_team.pk }}">{{ away_team.FGM }}/{{ away_team.FGA }}</th>
+                <th id="FGM_three  {{ away_team.pk }}">{{ away_team.FGM_three }}/{{ away_team.FGA_three }}</th>
+                <th id="OREB  {{ away_team.pk }}">{{ away_team.OREB }}</th>
+                <th id="DREB  {{ away_team.pk }}">{{ away_team.DREB }}</th>
+                <th id="TREB  {{ away_team.pk }}">{{ away_team.TREB }}</th>
+                <th id="AST  {{ away_team.pk }}">{{ away_team.AST }}</th>
+                <th id="BLK  {{ away_team.pk }}">{{ away_team.BLK }}</th>
+                <th id="STL  {{ away_team.pk }}">{{ away_team.STL }}</th>
+                <th id="TO  {{ away_team.pk }}">{{ away_team.TO }}</th>
+                <th id="PF  {{ away_team.pk }}">{{ away_team.PF }}</th>
+                <th id="PKT  {{ away_team.pk }}">{{ away_team.PKT }}</th>
+                <th></th>
+            </tr>
+    </table>
+</div>
